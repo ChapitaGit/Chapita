@@ -13,7 +13,7 @@ export default async function Home() {
   return (
     <>
       {/* ── Hero ────────────────────────────────────────────────── */}
-      <header className="relative w-full h-[52vw] min-h-[220px] max-h-[420px] flex items-center justify-center overflow-hidden">
+      <header className="relative w-full h-[52vw] min-h-[220px] max-h-[420px] flex items-center justify-center overflow-hidden bg-pit">
         <Image
           src="/hero-grill.png"
           alt="Frango assado na brasa"

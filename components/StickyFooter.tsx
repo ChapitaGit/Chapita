@@ -58,7 +58,7 @@ export default function StickyFooter() {
             rounded-xl bg-fire hover:bg-fire-light
             text-cream font-bold text-sm
             h-12 transition-all duration-200
-            active:scale-95 animate-pulse-glow
+            active:scale-95 animate-pulse-glow [animation-iteration-count:5]
           "
         >
           <svg

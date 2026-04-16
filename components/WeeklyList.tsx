@@ -9,6 +9,7 @@ interface WeeklyListProps {
 }
 
 const SHORT_LABELS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+const FULL_LABELS  = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
 
 // Fixed day order: Tue → Sun (Mon is closed)
 const FIXED_DAYS = [2, 3, 4, 5, 6, 0]; // Ter Qua Qui Sex Sáb Dom
@@ -23,6 +24,12 @@ export default function WeeklyList({ menus, currentDay }: WeeklyListProps) {
   });
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setShowSwipeHint(false), 4000);
+    return () => clearTimeout(t);
+  }, []);
 
   const currentIndex = FIXED_DAYS.indexOf(selectedDay);
   const safeIndex = currentIndex < 0 ? 0 : currentIndex;
@@ -95,7 +102,7 @@ export default function WeeklyList({ menus, currentDay }: WeeklyListProps) {
               className={`
                 flex-1 flex flex-col items-center
                 py-2.5 rounded-xl
-                transition-all duration-200 focus:outline-none
+                transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-fire focus-visible:ring-offset-1 focus-visible:ring-offset-pit
                 ${
                   !hasData
                     ? "bg-pit-light border border-border text-muted/30 cursor-default"
@@ -107,7 +114,7 @@ export default function WeeklyList({ menus, currentDay }: WeeklyListProps) {
                 }
               `}
             >
-              <span className="text-[11px] uppercase tracking-wider leading-none">
+              <span className="text-xs uppercase tracking-wide leading-none">
                 {isToday && hasData ? "Hoje" : SHORT_LABELS[day]}
               </span>
             </button>
@@ -142,8 +149,11 @@ export default function WeeklyList({ menus, currentDay }: WeeklyListProps) {
             )}
           </div>
 
-          {/* Swipe hint on mobile */}
-          <p className="text-[10px] text-muted/60 mb-3 sm:hidden text-center tracking-wide">
+          {/* Swipe hint on mobile — auto-hides after 4 s */}
+          <p
+            className="text-[10px] text-muted/60 mb-3 sm:hidden text-center tracking-wide transition-opacity duration-500"
+            style={{ opacity: showSwipeHint ? 1 : 0, pointerEvents: "none" }}
+          >
             ← deslize para mudar de dia →
           </p>
 
@@ -163,7 +173,7 @@ export default function WeeklyList({ menus, currentDay }: WeeklyListProps) {
                         ? activeMenu.day === currentDay
                           ? "bg-pit-light border-fire/25 hover:border-fire/50"
                           : "bg-pit-light border-border hover:border-wood/60"
-                        : "bg-pit-light/50 border-border opacity-40"
+                        : "bg-pit-light/50 border-border"
                     }
                   `}
                 >
@@ -188,7 +198,7 @@ export default function WeeklyList({ menus, currentDay }: WeeklyListProps) {
                         {meal.price}
                       </span>
                       {!meal.available && (
-                        <span className="text-[9px] uppercase font-extrabold bg-ember/70 text-cream px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] uppercase font-extrabold bg-ember text-cream px-2 py-0.5 rounded-full">
                           Esgotado
                         </span>
                       )}
@@ -209,7 +219,7 @@ export default function WeeklyList({ menus, currentDay }: WeeklyListProps) {
               <button
                 key={day}
                 onClick={() => navigateTo(i)}
-                aria-label={SHORT_LABELS[day]}
+                aria-label={FULL_LABELS[day]}
                 className={`rounded-full transition-all duration-300 ${
                   i === safeIndex
                     ? "w-5 h-1.5 bg-fire"
