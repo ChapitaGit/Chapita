@@ -1,26 +1,118 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ── Design tokens — Chapita logo palette ───────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Backgrounds */
+  --color-pit:           #0f0f0d;   /* near-black, like logo bg */
+  --color-pit-light:     #1a1610;   /* slightly lifted surface */
+  --color-pit-lighter:   #251e15;   /* hover / active surface */
+  --color-border:        #3a2a1a;   /* warm dark brown border */
+
+  /* Fire / brand accents */
+  --color-fire:          #e84018;   /* fire-red — active state */
+  --color-fire-light:    #ff5a2a;   /* brighter hover */
+  --color-flame:         #ff6a20;   /* flame orange — prices */
+  --color-ember:         #c01818;   /* deep red accent line */
+  --color-ember-light:   #d43434;
+
+  /* Typography */
+  --color-cream:         #f0e6d3;   /* primary text — logo cream */
+  --color-cream-dim:     #c8b49a;   /* secondary text */
+  --color-muted:         #7a6550;   /* disabled / placeholder */
+
+  /* Wood warmth */
+  --color-wood:          #8b5432;
+  --color-wood-light:    #a06840;
+
+  /* Legacy aliases (keep old names working) */
+  --color-charcoal:      var(--color-pit);
+  --color-charcoal-light: var(--color-pit-light);
+  --color-charcoal-lighter: var(--color-pit-lighter);
+  --color-warm:          var(--color-flame);
+  --color-warm-light:    #ffae42;
+  --color-smoke:         var(--color-muted);
+  --color-orange:        #ff4500;
+
+  /* Surfaces */
+  --color-background:    var(--color-pit);
+  --color-foreground:    var(--color-cream);
+  --color-card:          var(--color-pit-light);
+  --color-card-hover:    var(--color-pit-lighter);
+
+  /* Typography */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Animations */
+  --animate-fade-in:     fade-in 0.6s ease-out both;
+  --animate-slide-up:    slide-up 0.5s ease-out both;
+  --animate-pulse-glow:  pulse-glow 2s ease-in-out infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Keyframes ─────────────────────────────────────────────────── */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 69, 0, 0.4); }
+  50%      { box-shadow: 0 0 20px rgba(255, 69, 0, 0.7); }
+}
+
+/* ── Base styles ──────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-pit);
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent overscroll rubber-band revealing white bg on iOS */
+  overscroll-behavior: none;
+}
+
+/* ── Scrollbar (dark theme) ───────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-charcoal);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-charcoal-lighter);
+  border-radius: 3px;
+}
+
+/* ── Utility: stagger children animation ──────────────────────── */
+.stagger-children > * {
+  animation: slide-up 0.5s ease-out both;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.10s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.20s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.30s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.35s; }
+
+/* ── Utility: hide scrollbar ─────────────────────────────────── */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Utility: safe area bottom padding (iOS) ─────────────────── */
+.safe-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }

@@ -1,0 +1,22 @@
+{
+  "name": "Churrasqueira do Chapita",
+  "short_name": "Chapita",
+  "description": "Takeaway grill specializing in Frango Assado",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f0d",
+  "theme_color": "#e84018",
+  "icons": [
+    {
+      "src": "/icons/chapita_icon_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/chapita_icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
