@@ -1,7 +1,7 @@
 {
   "name": "Churrasqueira do Chapita",
   "short_name": "Chapita",
-  "description": "Takeaway grill specializing in Frango Assado",
+  "description": "Churrasqueira especializada em frango assado na brasa",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f0f0d",
@@ -17,6 +17,24 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ligar",
+      "short_name": "Ligar",
+      "description": "Ligar para a churrasqueira",
+      "url": "/",
+      "icons": [{ "src": "/icons/chapita_icon_192.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/hero-grill.webp",
+      "sizes": "1200x630",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Churrasqueira do Chapita — Ementa semanal"
     }
   ]
 }

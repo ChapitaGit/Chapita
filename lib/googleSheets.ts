@@ -101,15 +101,19 @@ async function fetchFromSheets(): Promise<DailyMenu[]> {
 
   const sheets = google.sheets({ version: "v4", auth });
 
-  // Each row: Day (number 0-6), Meal_Name, Description, Price, Available
+  // Open-ended range — no artificial row cap.
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId: sheetId,
-    range: "A2:E50", // Support up to ~50 rows (multiple meals per day)
+    range: "A2:E",
   });
 
   const rows = response.data.values;
   if (!rows || rows.length === 0) {
     return groupByDay(MOCK_ROWS);
+  }
+
+  if (rows.length > 40) {
+    console.warn(`[googleSheets] Fetched ${rows.length} rows — unusually high, verify sheet data.`);
   }
 
   const sheetRows: SheetRow[] = rows.map((row) => {

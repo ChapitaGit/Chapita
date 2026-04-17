@@ -1,8 +1,19 @@
 export default function StickyFooter() {
-  const phone = process.env.NEXT_PUBLIC_PHONE ?? "+351000000000";
+  const phone = process.env.NEXT_PUBLIC_PHONE;
   const mapsUrl =
     process.env.NEXT_PUBLIC_MAPS_URL ??
     "https://maps.google.com/?q=Churrasqueira+Chapita";
+
+  if (!phone) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[StickyFooter] NEXT_PUBLIC_PHONE is not set. " +
+        "Add it to .env.local (e.g. NEXT_PUBLIC_PHONE=+351XXXXXXXXX)."
+      );
+    }
+  }
+
+  const tel = phone ?? "#";
 
   return (
     <footer
@@ -52,7 +63,7 @@ export default function StickyFooter() {
         {/* Call button — right */}
         <a
           id="btn-call"
-          href={`tel:${phone}`}
+          href={tel.startsWith("+") ? `tel:${tel}` : tel}
           className="
             flex-1 flex items-center justify-center gap-2
             rounded-xl bg-fire hover:bg-fire-light

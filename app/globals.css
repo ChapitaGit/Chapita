@@ -101,3 +101,53 @@ body {
 .safe-bottom {
   padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
+
+/* ── Logo: spinning fire ring ─────────────────────────────────── */
+/* @property animates the conic-gradient angle so only the gradient
+   rotates — the image inside stays perfectly still.
+   Falls back to a static gradient on browsers without @property.   */
+@property --ring-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes logo-ring-spin {
+  to { --ring-angle: 360deg; }
+}
+
+.logo-ring {
+  flex-shrink: 0;
+  border-radius: 9999px;
+  padding: 3px;
+  background: conic-gradient(
+    from var(--ring-angle),
+    #6b1000 0%,
+    #e84018 18%,
+    #ff6a20 32%,
+    #ffd199 50%,
+    #ff6a20 68%,
+    #e84018 82%,
+    #6b1000 100%
+  );
+  animation: logo-ring-spin 9s linear infinite;
+  box-shadow: 0 0 28px rgba(232, 64, 24, 0.40), 0 14px 44px rgba(0, 0, 0, 0.75);
+}
+
+/* ── Hero: ember / spark particles ───────────────────────────── */
+@keyframes ember-rise {
+  0%   { opacity: 0;   transform: translateY(0)     translateX(0)                             scale(1);   }
+  12%  { opacity: 0.9;                                                                                     }
+  75%  { opacity: 0.4; transform: translateY(-60px) translateX(calc(var(--ember-drift) * 0.6)) scale(0.6); }
+  100% { opacity: 0;   transform: translateY(-95px) translateX(var(--ember-drift))              scale(0.3); }
+}
+
+.ember {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 30%, #fff4b0, #ff8c00 55%, transparent 80%);
+  box-shadow: 0 0 5px 2px rgba(255, 120, 0, 0.55);
+  animation: ember-rise var(--ember-dur, 3s) ease-in var(--ember-delay, 0s) infinite;
+  pointer-events: none;
+  will-change: transform, opacity;
+}

@@ -9,6 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://chapita.pt"
+  ),
   title: "Churrasqueira do Chapita — Frango Assado na Brasa",
   description:
     "O melhor frango assado na brasa. Encomende já por telefone ou WhatsApp. Pratos do dia frescos e preparados na hora.",
@@ -23,6 +26,7 @@ export const metadata: Metadata = {
     description: "O melhor frango assado na brasa — desde sempre.",
     type: "website",
     locale: "pt_PT",
+    images: [{ url: "/hero-grill.webp", width: 1200, height: 630, alt: "Chapita — Frango Assado na Brasa" }],
   },
 };
 
@@ -39,10 +43,39 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://chapita.pt";
+  const phone   = process.env.NEXT_PUBLIC_PHONE ?? "";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    name: "Churrasqueira do Chapita",
+    servesCuisine: ["Portuguese", "Grilled chicken"],
+    url: siteUrl,
+    telephone: phone,
+    priceRange: "€",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "R. dos Lavradores 23",
+      addressLocality: "Valado dos Frades",
+      postalCode: "2450-335",
+      addressCountry: "PT",
+    },
+    openingHoursSpecification: [
+      { "@type": "OpeningHoursSpecification", dayOfWeek: ["Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "12:00", closes: "15:00" },
+      { "@type": "OpeningHoursSpecification", dayOfWeek: ["Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "19:00", closes: "22:00" },
+    ],
+    image: `${siteUrl}/hero-grill.webp`,
+  };
+
   return (
     <html lang="pt" className={`${inter.variable} h-full antialiased`}>
       <head>
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
