@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://chapita.pt";
+  let siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.chapita.eu";
+  if (!siteUrl.startsWith("http")) siteUrl = `https://${siteUrl}`;
 
   return [
     {

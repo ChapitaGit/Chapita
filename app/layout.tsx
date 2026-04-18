@@ -8,10 +8,13 @@ const inter = Inter({
   display: "swap",
 });
 
+const getBaseUrl = () => {
+  const url = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.chapita.eu";
+  return url.startsWith("http") ? url : `https://${url}`;
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://chapita.pt"
-  ),
+  metadataBase: new URL(getBaseUrl()),
   title: "Churrasqueira do Chapita — Frango Assado na Brasa",
   description:
     "O melhor frango assado na brasa. Encomende já por telefone ou WhatsApp. Pratos do dia frescos e preparados na hora.",
@@ -43,7 +46,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://chapita.pt";
+  let siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.chapita.eu";
+  if (!siteUrl.startsWith("http")) siteUrl = `https://${siteUrl}`;
   const phone   = process.env.NEXT_PUBLIC_PHONE ?? "";
 
   const jsonLd = {
