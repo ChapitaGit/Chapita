@@ -127,6 +127,28 @@ export default function WeeklyList({ menus, currentDay }: WeeklyListProps) {
     }
   };
 
+  // ── Empty state: no menu data from Google Sheets ──────────────
+  if (menus.length === 0) {
+    return (
+      <section
+        id="weekly-specials"
+        className="w-full max-w-lg mx-auto px-4 sm:px-6 pt-5 pb-10 animate-fade-in"
+      >
+        <h2 className="text-xl sm:text-2xl font-bold text-cream tracking-wide mb-4 uppercase">
+          Ementa Semanal
+        </h2>
+        <div className="rounded-xl border border-border bg-pit-light p-6 text-center">
+          <p className="text-base text-cream mb-2">
+            A ementa de hoje ainda não está disponível online.
+          </p>
+          <p className="text-sm text-muted">
+            Ligue-nos para saber os pratos do dia! 📞
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       ref={sectionRef}
