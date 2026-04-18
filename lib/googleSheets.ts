@@ -69,11 +69,17 @@ async function fetchFromSheets(): Promise<DailyMenu[]> {
     return [];
   }
 
+  // Format the private key gracefully. Vercel sometimes preserves literal quotes or
+  // escapes newlines depending on how the user pasted it in the Dashboard.
+  const formattedKey = rawKey
+    .replace(/^"|"$/g, "")        // strip leading/trailing quotes
+    .replace(/\\n/g, "\n");       // convert literal "\n" strings into real newlines
+
   // google-auth-library handles JWT signing — much lighter than full googleapis
   const auth = new GoogleAuth({
     credentials: {
       client_email: email,
-      private_key: rawKey.replace(/\\n/g, "\n"),
+      private_key: formattedKey,
     },
     scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
   });
